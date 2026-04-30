@@ -1,0 +1,28 @@
+.main,
+.main * {
+  box-sizing: border-box;
+}
+.main {
+  background: #ffffff;
+  height: 960px;
+  position: relative;
+}
+
+.schedule,
+.schedule * {
+  box-sizing: border-box;
+}
+.schedule {
+  background: #ffffff;
+  position: relative;
+}
+
+.todolist,
+.todolist * {
+  box-sizing: border-box;
+}
+.todolist {
+  height: 690px;
+  position: relative;
+  overflow: visible;
+}

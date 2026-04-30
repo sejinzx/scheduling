@@ -1,0 +1,23 @@
+.footer {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  color: #666;
+
+  border-top: 1px solid #9de8ff;
+}
+
+.divider {
+  margin: 0 8px;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

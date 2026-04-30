@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 전체 높이를 화면 높이로 설정 */
+}
+
+.footer,
+.footer * {
+  box-sizing: border-box;
+}
+.footer {
+  background: #ffffff;
+  height: 60px;
+  position: relative;
+}

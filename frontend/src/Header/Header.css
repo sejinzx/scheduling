@@ -1,0 +1,51 @@
+/* 기본 설정 */
+* {
+  box-sizing: border-box;
+}
+
+/* 헤더 */
+.header {
+  background: #9de8ff;
+  width: 100%;
+  height: 60px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* 날짜 */
+.date {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 600;
+}
+
+/* 이전 버튼 */
+.prev {
+  position: absolute;
+  left: calc(50% - 80px);
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 다음 버튼 */
+.next {
+  position: absolute;
+  left: calc(50% + 60px);
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 캘린더 아이콘 */
+.calendar {
+  position: absolute;
+  right: 40px;
+}
+
+.calendar img {
+  width: 35px;
+  height: 35px;
+}
