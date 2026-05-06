@@ -8,8 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 @Getter
 @Entity
 @NoArgsConstructor
@@ -27,11 +26,11 @@ public class ToDoListEntity {
 
     @Column(name = "todo_create_date", nullable = false)
     @CreatedDate
-    private Date todoCreateDate;
+    private LocalDate todoCreateDate;
 
     @Column(name = "todo_update_date", nullable = false)
     @LastModifiedDate
-    private Date todoUpdateDate;
+    private LocalDate todoUpdateDate;
 
     @Column(name = "todo_deleted", nullable = false)
     private Boolean todoDeleted = false;
