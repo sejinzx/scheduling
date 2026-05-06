@@ -16,21 +16,27 @@ public class ToDoListController {
     private final ToDoListService toDoListService;
 
     @Tag(name = "ToDoList 생성")
-    @PostMapping(value = "/new")
-    public ResponseEntity<?> addToDo(RequestAddToDo requestAddToDo) {
+    @PostMapping("/new")
+    public ResponseEntity<?> addToDo(@RequestBody RequestAddToDo requestAddToDo) {
         return toDoListService.createToDo(requestAddToDo);
     }
 
     @Tag(name = "ToDoList 수정")
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateToDo(@PathVariable Long id, RequestUpdateToDo requestUpdateToDo) {
+    public ResponseEntity<?> updateToDo(@PathVariable Long id, @RequestBody RequestUpdateToDo requestUpdateToDo) {
         return toDoListService.updateToDo(id, requestUpdateToDo);
     }
 
     @Tag(name = "ToDoList 삭제")
-    @PutMapping("/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<?> deleteToDo(@PathVariable Long id) {
         return toDoListService.deleteToDo(id);
+    }
+
+    @Tag(name = "ToDoList 조회")
+    @GetMapping
+    public ResponseEntity<?> getTodos(@RequestParam String date) {
+        return toDoListService.getToDo(date);
     }
 
 }

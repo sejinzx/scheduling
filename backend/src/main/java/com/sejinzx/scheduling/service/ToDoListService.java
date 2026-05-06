@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,9 +26,9 @@ public class ToDoListService {
         ToDoListEntity toDoListEntity = ToDoListEntity.builder()
                 .todoContent(requestAddToDo.getTodoContent())
                 .build();
-        toDoListRepository.save(toDoListEntity);
+        ToDoListEntity saved = toDoListRepository.save(toDoListEntity);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "투두리스트 생성"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 
     }
 
@@ -37,13 +39,13 @@ public class ToDoListService {
 
         if(requestUpdateToDo.getTodoContent() != null){
             toDoListEntity.setTodoContent(requestUpdateToDo.getTodoContent());
-        } else if(requestUpdateToDo.getTodoEnded() != null){
+        }
+        if(requestUpdateToDo.getTodoEnded() != null){
             toDoListEntity.setTodoEnded(requestUpdateToDo.getTodoEnded());
         }
+        ToDoListEntity saved = toDoListRepository.save(toDoListEntity);
 
-        toDoListRepository.save(toDoListEntity);
-
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "투두리스트 수정"));
+        return ResponseEntity.status(HttpStatus.OK).body(saved);
 
     }
 
@@ -57,6 +59,13 @@ public class ToDoListService {
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "투두리스트 삭제"));
 
+    }
+
+    public ResponseEntity<?> getToDo(String date) {
+        LocalDate parsedDate = LocalDate.parse(date);
+        List<ToDoListEntity> toDoListEntity = toDoListRepository.findByTodoUpdateDateAndTodoDeletedFalse(parsedDate);
+
+        return ResponseEntity.status(HttpStatus.OK).body(toDoListEntity);
     }
 
 }
