@@ -62,22 +62,76 @@
   color: #999;
 }
 
-/* 삭제 버튼 */
-.todo-delete {
-  width: 30px;
-  height: 30px;
-
+/* 수정, 저장 버튼 */
+.todo-edit,
+.todo-save {
+  width: auto;
+  height: auto;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
+  color: #38bde6;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 3px;
+  padding-top: 3px;
 }
 
-.todo-delete:hover {
-  background: #ffe5e5;
+.todo-edit:hover,
+.todo-save:hover {
+  background: #38bde6;
+  color: #ffffff;
   border-radius: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
+.separation {
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00000095;
+  font-weight: 600;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
+/* 삭제, 취소 버튼 */
+.todo-delete,
+.todo-cancel {
+  width: auto;
+  height: auto;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #ff7979;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
+.todo-delete:hover,
+.todo-cancel:hover {
+  background: #ff7979;
+  color: #ffffff;
+  border-radius: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 3px;
+  padding-top: 3px;
 }
 
 /* 추가 버튼 */

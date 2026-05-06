@@ -38,6 +38,10 @@
   font-weight: 700;
   cursor: pointer;
 }
+.next.disabled {
+  color: #ccc;
+  cursor: default;
+}
 
 /* 캘린더 아이콘 */
 .calendar {
