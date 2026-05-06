@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Schedule from "./Schedule";
 import TodoList from "./TodoList";
 
-const Main = () => {
+const Main = ({ date }) => {
   const [scheduleItems, setScheduleItems] = useState([
     { id: 1, text: "급함", color: "red" },
     { id: 2, text: "아직 여유", color: "orange" },
@@ -19,11 +19,7 @@ const Main = () => {
         setTodos={setTodos}
       />
 
-      <TodoList
-        todos={todos}
-        setTodos={setTodos}
-        setScheduleItems={setScheduleItems}
-      />
+      <TodoList todos={todos} setTodos={setTodos} date={date} />
     </div>
   );
 };

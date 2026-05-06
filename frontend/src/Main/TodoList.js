@@ -1,47 +1,193 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TodoList.css";
 
-const TodoList = ({ todos, setTodos, setScheduleItems }) => {
+const TodoList = ({ todos, setTodos, date }) => {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+
+  console.log(date);
+
+  useEffect(() => {
+    if (!date) return;
+
+    fetch(`/api/todolist?date=${date}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("조회 실패");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("서버 데이터:", data);
+        const mapped = data.map((item) => ({
+          id: item.todoSeq,
+          text: item.todoContent,
+          checked: false,
+        }));
+
+        setTodos(mapped);
+      })
+      .catch(console.error);
+  }, [date]);
 
   const toggleCheck = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, checked: !todo.checked } : todo,
+    const target = todos.find((t) => t.id === id);
+    const updatedChecked = !target.checked;
+
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, checked: updatedChecked } : todo,
       ),
     );
+
+    fetch(`/api/todolist/update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        todoEnded: updatedChecked,
+      }),
+    }).catch((err) => {
+      console.error(err);
+
+      setTodos((prev) =>
+        prev.map((todo) =>
+          todo.id === id ? { ...todo, checked: !updatedChecked } : todo,
+        ),
+      );
+    });
   };
 
   const addTodo = () => {
     const newId = Date.now();
 
-    const newTodo = {
-      id: newId,
-      text: "",
-      checked: false,
-    };
-
-    // 🔥 맨 아래 추가
-    setTodos((prev) => [...prev, newTodo]);
+    setTodos((prev) => [
+      ...prev,
+      {
+        id: newId,
+        text: "",
+        checked: false,
+        isNew: true,
+      },
+    ]);
 
     setEditingId(newId);
     setEditText("");
   };
 
-  const removeTodo = (todo) => {
-    // 1. todo 삭제
-    setTodos((prev) => prev.filter((t) => t.id !== todo.id));
+  const finishEdit = (id) => {
+    if (isSaving) return;
 
-    // 2. schedule로 복구
-    setScheduleItems((prev) => [
-      ...prev,
-      {
-        id: todo.id,
-        text: todo.text,
-        color: todo.color || "green",
+    setIsSaving(true);
+
+    const trimmed = editText.trim();
+
+    if (!trimmed) {
+      setTodos((prev) => prev.filter((todo) => todo.id !== id));
+      setEditingId(null);
+      setIsSaving(false);
+      return;
+    }
+
+    const target = todos.find((t) => t.id === id);
+    const isNew = target?.isNew;
+
+    const url = isNew ? "/api/todolist/new" : `/api/todolist/update/${id}`;
+
+    const method = isNew ? "POST" : "PUT";
+
+    fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
       },
-    ]);
+      body: JSON.stringify({
+        todoContent: trimmed,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("저장 실패");
+        return res.json();
+      })
+      .then((savedTodo) => {
+        setTodos((prev) =>
+          prev.map((todo) =>
+            todo.id === id
+              ? {
+                  id: savedTodo.todoSeq ?? savedTodo.id,
+                  text: savedTodo.todoContent,
+                  checked: false,
+                }
+              : todo,
+          ),
+        );
+
+        setEditingId(null);
+      })
+      .catch(console.error)
+      .finally(() => setIsSaving(false));
+  };
+
+  const editTodo = (id) => {
+    const target = todos.find((t) => t.id === id);
+    setEditingId(id);
+    setEditText(target?.text || "");
+  };
+
+  const saveTodo = (id) => {
+    const trimmed = editText.trim();
+
+    if (!trimmed) {
+      setTodos((prev) => prev.filter((todo) => todo.id !== id));
+      setEditingId(null);
+      return;
+    }
+
+    fetch(`/api/todolist/update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        todoContent: trimmed,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("저장 실패");
+        return res.json();
+      })
+      .then((updatedTodo) => {
+        setTodos((prev) =>
+          prev.map((t) =>
+            t.id === id
+              ? {
+                  ...t,
+                  text: updatedTodo.todoContent,
+                }
+              : t,
+          ),
+        );
+
+        setEditingId(null);
+      })
+      .catch(console.error);
+  };
+
+  const removeTodo = (id) => {
+    fetch(`/api/todolist/delete/${id}`, {
+      method: "PUT",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("삭제 실패");
+      })
+      .then(() => {
+        setTodos((prev) => prev.filter((t) => t.id !== id));
+      })
+      .catch(console.error);
+  };
+
+  const cancelTodo = () => {
+    setEditingId(null);
   };
 
   const startEdit = (todo) => {
@@ -49,58 +195,58 @@ const TodoList = ({ todos, setTodos, setScheduleItems }) => {
     setEditText(todo.text);
   };
 
-  const finishEdit = (id) => {
-    if (editText.trim() === "") {
-      setTodos(todos.filter((todo) => todo.id !== id));
-    } else {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === id ? { ...todo, text: editText } : todo,
-        ),
-      );
-    }
-
-    setEditingId(null);
-  };
-
   return (
     <div className="todo">
       {todos.map((todo) => (
         <div className="todo-item" key={todo.id}>
-          {/* 체크박스 */}
           <div
             className={`todo-box ${todo.checked ? "checked" : ""}`}
             onClick={() => toggleCheck(todo.id)}
           >
             {todo.checked && "✓"}
           </div>
-
-          {/* 텍스트 / 입력 */}
           {editingId === todo.id ? (
             <input
               className="todo-input"
               value={editText}
-              placeholder="입력하세요"
+              placeholder={!editText ? "입력하세요" : ""}
               onChange={(e) => setEditText(e.target.value)}
               onBlur={() => finishEdit(todo.id)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") finishEdit(todo.id);
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  finishEdit(todo.id);
+                }
               }}
               autoFocus
             />
           ) : (
-            <div
-              className={`todo-text ${todo.checked ? "done" : ""}`}
-              onClick={() => startEdit(todo)}
-            >
+            <div className={`todo-text ${todo.checked ? "done" : ""}`}>
               {todo.text || "입력하세요"}
             </div>
           )}
-
-          {/* 삭제 */}
-          <div className="todo-delete" onClick={() => removeTodo(todo)}>
-            x
-          </div>
+          {editingId === todo.id ? (
+            <>
+              <div className="todo-save" onClick={() => saveTodo(todo.id)}>
+                저장
+              </div>
+              <div className="separation">|</div>
+              <div className="todo-cancel" onClick={cancelTodo}>
+                취소
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="todo-edit" onClick={() => editTodo(todo.id)}>
+                수정
+              </div>
+              <div className="separation">|</div>
+              <div className="todo-delete" onClick={() => removeTodo(todo.id)}>
+                삭제
+              </div>
+            </>
+          )}
+          &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       ))}
 
