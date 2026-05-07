@@ -5,7 +5,8 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/sejinzx/scheduling.git'
+                git branch: 'main',
+                    url: 'https://github.com/sejinzx/scheduling.git'
             }
         }
 
