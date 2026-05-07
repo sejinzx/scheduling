@@ -6,7 +6,7 @@ COPY . .
 
 RUN gradle build -x test
 
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
