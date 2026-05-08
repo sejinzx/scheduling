@@ -6,8 +6,6 @@ const TodoList = ({ todos, setTodos, date }) => {
   const [editText, setEditText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
-  console.log(date);
-
   useEffect(() => {
     if (!date) return;
 
@@ -17,11 +15,10 @@ const TodoList = ({ todos, setTodos, date }) => {
         return res.json();
       })
       .then((data) => {
-        console.log("서버 데이터:", data);
         const mapped = data.map((item) => ({
           id: item.todoSeq,
           text: item.todoContent,
-          checked: false,
+          checked: item.todoEnded,
         }));
 
         setTodos(mapped);
@@ -190,65 +187,67 @@ const TodoList = ({ todos, setTodos, date }) => {
     setEditingId(null);
   };
 
-  const startEdit = (todo) => {
-    setEditingId(todo.id);
-    setEditText(todo.text);
-  };
-
   return (
     <div className="todo">
-      {todos.map((todo) => (
-        <div className="todo-item" key={todo.id}>
-          <div
-            className={`todo-box ${todo.checked ? "checked" : ""}`}
-            onClick={() => toggleCheck(todo.id)}
-          >
-            {todo.checked && "✓"}
-          </div>
-          {editingId === todo.id ? (
-            <input
-              className="todo-input"
-              value={editText}
-              placeholder={!editText ? "입력하세요" : ""}
-              onChange={(e) => setEditText(e.target.value)}
-              onBlur={() => finishEdit(todo.id)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  finishEdit(todo.id);
-                }
-              }}
-              autoFocus
-            />
-          ) : (
-            <div className={`todo-text ${todo.checked ? "done" : ""}`}>
-              {todo.text || "입력하세요"}
+      {todos.length === 0 ? (
+        <div className="empty-todo">투루리스트가 없습니다</div>
+      ) : (
+        todos.map((todo) => (
+          <div className="todo-item" key={todo.id}>
+            <div
+              className={`todo-box ${todo.checked ? "checked" : ""}`}
+              onClick={() => toggleCheck(todo.id)}
+            >
+              {todo.checked && "✓"}
             </div>
-          )}
-          {editingId === todo.id ? (
-            <>
-              <div className="todo-save" onClick={() => saveTodo(todo.id)}>
-                저장
+            {editingId === todo.id ? (
+              <input
+                className="todo-input"
+                value={editText}
+                placeholder={!editText ? "입력하세요" : ""}
+                onChange={(e) => setEditText(e.target.value)}
+                onBlur={() => finishEdit(todo.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    finishEdit(todo.id);
+                  }
+                }}
+                autoFocus
+              />
+            ) : (
+              <div className={`todo-text ${todo.checked ? "done" : ""}`}>
+                {todo.text || "입력하세요"}
               </div>
-              <div className="separation">|</div>
-              <div className="todo-cancel" onClick={cancelTodo}>
-                취소
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="todo-edit" onClick={() => editTodo(todo.id)}>
-                수정
-              </div>
-              <div className="separation">|</div>
-              <div className="todo-delete" onClick={() => removeTodo(todo.id)}>
-                삭제
-              </div>
-            </>
-          )}
-          &nbsp;&nbsp;&nbsp;&nbsp;
-        </div>
-      ))}
+            )}
+            {editingId === todo.id ? (
+              <>
+                <div className="todo-save" onClick={() => saveTodo(todo.id)}>
+                  저장
+                </div>
+                <div className="separation">|</div>
+                <div className="todo-cancel" onClick={cancelTodo}>
+                  취소
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="todo-edit" onClick={() => editTodo(todo.id)}>
+                  수정
+                </div>
+                <div className="separation">|</div>
+                <div
+                  className="todo-delete"
+                  onClick={() => removeTodo(todo.id)}
+                >
+                  삭제
+                </div>
+              </>
+            )}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+        ))
+      )}
 
       <div className="todo-add" onClick={addTodo}>
         +
