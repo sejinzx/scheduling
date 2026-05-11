@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ToDoListRepository extends JpaRepository<ToDoListEntity, Long> {
+
     Optional<ToDoListEntity> findByTodoSeqAndTodoDeletedFalse(long todoSeq);
-    List<ToDoListEntity> findByTodoUpdateDateAndTodoDeletedFalse(LocalDate todoUpdateDate);
+
+    List<ToDoListEntity> findByTodoCreateeDateAndTodoDeletedFalse(LocalDate todoCreateDate);
+
 }
