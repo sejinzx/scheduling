@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -62,10 +61,12 @@ public class ToDoListService {
     }
 
     public ResponseEntity<?> getToDo(String date) {
+
         LocalDate parsedDate = LocalDate.parse(date);
-        List<ToDoListEntity> toDoListEntity = toDoListRepository.findByTodoUpdateDateAndTodoDeletedFalse(parsedDate);
+        List<ToDoListEntity> toDoListEntity = toDoListRepository.findByTodoCreateeDateAndTodoDeletedFalse(parsedDate);
 
         return ResponseEntity.status(HttpStatus.OK).body(toDoListEntity);
+
     }
 
 }
