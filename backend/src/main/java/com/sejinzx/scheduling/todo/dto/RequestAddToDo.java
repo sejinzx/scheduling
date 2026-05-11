@@ -1,4 +1,4 @@
-package com.sejinzx.scheduling.dto;
+package com.sejinzx.scheduling.todo.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

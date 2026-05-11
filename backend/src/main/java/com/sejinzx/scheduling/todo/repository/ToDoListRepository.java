@@ -1,6 +1,6 @@
-package com.sejinzx.scheduling.repository;
+package com.sejinzx.scheduling.todo.repository;
 
-import com.sejinzx.scheduling.entity.ToDoListEntity;
+import com.sejinzx.scheduling.todo.entity.ToDoListEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;
