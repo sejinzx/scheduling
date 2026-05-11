@@ -1,8 +1,8 @@
-package com.sejinzx.scheduling.controller;
+package com.sejinzx.scheduling.todo.controller;
 
-import com.sejinzx.scheduling.dto.RequestAddToDo;
-import com.sejinzx.scheduling.dto.RequestUpdateToDo;
-import com.sejinzx.scheduling.service.ToDoListService;
+import com.sejinzx.scheduling.todo.dto.RequestAddToDo;
+import com.sejinzx.scheduling.todo.dto.RequestUpdateToDo;
+import com.sejinzx.scheduling.todo.service.ToDoListService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

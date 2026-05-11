@@ -1,4 +1,4 @@
-package com.sejinzx.scheduling.entity;
+package com.sejinzx.scheduling.todo.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;

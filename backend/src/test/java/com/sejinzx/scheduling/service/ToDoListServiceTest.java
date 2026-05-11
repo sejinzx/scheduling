@@ -1,9 +1,10 @@
 package com.sejinzx.scheduling.service;
 
-import com.sejinzx.scheduling.dto.RequestAddToDo;
-import com.sejinzx.scheduling.dto.RequestUpdateToDo;
-import com.sejinzx.scheduling.entity.ToDoListEntity;
-import com.sejinzx.scheduling.repository.ToDoListRepository;
+import com.sejinzx.scheduling.todo.dto.RequestAddToDo;
+import com.sejinzx.scheduling.todo.dto.RequestUpdateToDo;
+import com.sejinzx.scheduling.todo.entity.ToDoListEntity;
+import com.sejinzx.scheduling.todo.repository.ToDoListRepository;
+import com.sejinzx.scheduling.todo.service.ToDoListService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
