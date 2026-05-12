@@ -1,0 +1,10 @@
+.schedule_main,
+.schedule_main * {
+  box-sizing: border-box;
+}
+
+.schedule_main {
+  background: #ffffff;
+  min-height: 85vh;
+  position: relative;
+}

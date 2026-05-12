@@ -1,13 +1,20 @@
-/* 기본 설정 */
-* {
+.todo_main,
+.todo_main * {
   box-sizing: border-box;
 }
+.todo_main {
+  background: #ffffff;
+  min-height: 85vh;
+  position: relative;
+}
 
-/* 헤더 */
-.header {
-  background: #9de8ff;
-  width: 100%;
+/* 조회 날짜 */
+.view_date {
+  background: #ffffff;
+  border-bottom: 2px solid #9de8ff;
+  width: 85%;
   height: 60px;
+  margin: 0 auto;
 
   display: flex;
   justify-content: center;
@@ -43,13 +50,21 @@
   cursor: default;
 }
 
-/* 캘린더 아이콘 */
-.calendar {
-  position: absolute;
-  right: 40px;
+.schedule,
+.schedule * {
+  box-sizing: border-box;
+}
+.schedule {
+  background: #ffffff;
+  position: relative;
 }
 
-.calendar img {
-  width: 35px;
-  height: 35px;
+.todolist,
+.todolist * {
+  box-sizing: border-box;
+}
+.todolist {
+  height: 690px;
+  position: relative;
+  overflow: visible;
 }

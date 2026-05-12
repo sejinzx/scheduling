@@ -1,5 +1,12 @@
+.footer,
+.footer * {
+  box-sizing: border-box;
+}
+
 .footer {
+  background: #ffffff;
   height: 60px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;

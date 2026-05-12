@@ -1,18 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./layout/Layout";
+import TodoPage from "./pages/TodoPage";
+import SchedulePage from "./pages/SchedulePage";
 import "./App.css";
-import Layout from "./Layout"; // 레이아웃 컴포넌트 불러오기
 
 function App() {
   const [date, setDate] = useState(() => {
     const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
-      d.getDate(),
-    ).padStart(2, "0")}`;
+
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+      2,
+      "0",
+    )}-${String(d.getDate()).padStart(2, "0")}`;
   });
+
   return (
-    <div>
-      <Layout date={date} setDate={setDate} /> {/* 레이아웃 적용 */}
-    </div>
+    <Routes>
+      <Route element={<Layout date={date} setDate={setDate} />}>
+        <Route path="/" element={<TodoPage />} />
+
+        <Route path="/schedule" element={<SchedulePage />} />
+      </Route>
+    </Routes>
   );
 }
 

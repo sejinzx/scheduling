@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ScheduleToTodo.css";
 
-const Schedule = ({ scheduleItems, setScheduleItems, setTodos }) => {
+const ScheduleToTodo = ({ scheduleItems, setScheduleItems, setTodos }) => {
   const addToTodo = (item) => {
     // 1. todo로 추가
     setTodos((prev) => [
@@ -14,7 +14,7 @@ const Schedule = ({ scheduleItems, setScheduleItems, setTodos }) => {
   };
 
   return (
-    <div className="schedule">
+    <div className="scheduleToTodo">
       {scheduleItems.length === 0 ? (
         <div className="empty">일정이 없습니다</div>
       ) : (
@@ -33,4 +33,4 @@ const Schedule = ({ scheduleItems, setScheduleItems, setTodos }) => {
   );
 };
 
-export default Schedule;
+export default ScheduleToTodo;
