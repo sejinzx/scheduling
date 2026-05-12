@@ -53,6 +53,7 @@ const Header = ({ date, setDate }) => {
       >
         &gt;
       </div>
+      <div className="calendar">캘린더</div>
     </div>
   );
 };

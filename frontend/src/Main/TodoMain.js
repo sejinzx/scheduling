@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Schedule from "./Schedule";
+import ScheduleToTodo from "./ScheduleToTodo";
 import TodoList from "./TodoList";
 
 const Main = ({ date }) => {
@@ -13,7 +13,7 @@ const Main = ({ date }) => {
 
   return (
     <div className="main">
-      <Schedule
+      <ScheduleToTodo
         scheduleItems={scheduleItems}
         setScheduleItems={setScheduleItems}
         setTodos={setTodos}

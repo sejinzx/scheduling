@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import Main from "./Main/Main";
+import TodoMain from "./Main/TodoMain";
 
 const Layout = ({ date, setDate }) => {
   return (
     <div className="container">
       <Header date={date} setDate={setDate} />
-      <Main date={date} />
+      <TodoMain date={date} />
       <Footer />
     </div>
   );

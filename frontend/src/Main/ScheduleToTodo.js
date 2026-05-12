@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Schedule.css";
+import "./ScheduleToTodo.css";
 
 const Schedule = ({ scheduleItems, setScheduleItems, setTodos }) => {
   const addToTodo = (item) => {
