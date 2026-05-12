@@ -63,7 +63,7 @@ public class ToDoListService {
     public ResponseEntity<?> getToDo(String date) {
 
         LocalDate parsedDate = LocalDate.parse(date);
-        List<ToDoListEntity> toDoListEntity = toDoListRepository.findByTodoCreateeDateAndTodoDeletedFalse(parsedDate);
+        List<ToDoListEntity> toDoListEntity = toDoListRepository.findByTodoCreateDateAndTodoDeletedFalse(parsedDate);
 
         return ResponseEntity.status(HttpStatus.OK).body(toDoListEntity);
 

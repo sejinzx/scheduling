@@ -10,6 +10,6 @@ public interface ToDoListRepository extends JpaRepository<ToDoListEntity, Long> 
 
     Optional<ToDoListEntity> findByTodoSeqAndTodoDeletedFalse(long todoSeq);
 
-    List<ToDoListEntity> findByTodoCreateeDateAndTodoDeletedFalse(LocalDate todoCreateDate);
+    List<ToDoListEntity> findByTodoCreateDateAndTodoDeletedFalse(LocalDate todoCreateDate);
 
 }
