@@ -1,16 +1,16 @@
-# Scheduling Project
+# Scheduling
 
 React와 Spring Boot를 활용한 일정 관리 웹 애플리케이션입니다.
 
 ## 프로젝트 소개
+- 개인 프로젝트
 - 진행 기간 : 2026.04.28 ~ 진행 중
-- 개발 인원 : 1인 개인 프로젝트
 - 프로젝트 목표 :
   - 일정 관리 기능 구현
-  - React와 Spring Boot 연동 경험
-  - REST API 설계 및 CRUD 학습
-  - Docker 기반 개발 및 실행 환경 구성 경험
-  - 프론트엔드와 백엔드 분리 구조 이해
+  - React와 Spring Boot 연동
+  - REST API 설계 및 CRUD 작성
+  - Docker 기반 개발 및 실행 환경 구성
+  - 프론트엔드와 백엔드 구조 분리
 
 ## 기술 스택
 
