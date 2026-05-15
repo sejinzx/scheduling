@@ -4,7 +4,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <footer className="footer">
-      <span>© 2026 MyTodo</span>
+      <span>© 2026 Scheduling</span>
       <span className="divider">|</span>
       <span className="link">이용약관</span>
       <span className="divider">|</span>
