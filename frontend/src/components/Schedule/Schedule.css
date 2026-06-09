@@ -1,10 +1,78 @@
-.schedule_main,
-.schedule_main * {
+.schedule,
+.schedule * {
   box-sizing: border-box;
 }
 
-.schedule_main {
+.schedule {
   background: #ffffff;
   min-height: 85vh;
   position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+/* 캘린더 전체 */
+.schedule .react-calendar {
+  width: 100%;
+  border: none;
+  font-family: sans-serif;
+}
+
+/* 요일 중앙정렬 */
+.schedule .react-calendar__month-view__weekdays {
+  text-align: center;
+}
+
+.schedule .react-calendar__month-view__weekdays__weekday {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+/* 날짜 중앙정렬 */
+.schedule .react-calendar__tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  text-align: center;
+}
+
+/* ===== 요일 헤더 색상 ===== */
+
+/* 일요일 헤더 */
+.schedule .react-calendar__month-view__weekdays__weekday:first-child {
+  color: #ff7979;
+}
+
+/* 토요일 헤더 */
+.schedule .react-calendar__month-view__weekdays__weekday:last-child {
+  color: #6397ff;
+}
+
+/* ===== 날짜 색상 ===== */
+
+/* 일요일 날짜 */
+.schedule .sunday {
+  color: #ff7979;
+}
+
+/* 토요일 날짜 */
+.schedule .saturday {
+  color: #6397ff;
+}
+
+/* 비활성 날짜 */
+.schedule .react-calendar__tile:disabled {
+  background: #f3f3f3;
+  color: #c0c0c0;
+}
+
+/* 선택 날짜 */
+.schedule .react-calendar__tile--active {
+  background: #6397ff !important;
+  color: white !important;
+  border-radius: 10px;
 }
