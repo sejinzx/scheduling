@@ -28,4 +28,6 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> 
             @Param("endDate") LocalDate endDate
     );
 
+    List<ScheduleEntity> findByScheduleDateAndScheduleDeletedFalse(LocalDate scheduleDate);
+
 }
