@@ -100,6 +100,12 @@ public class ScheduleService {
         return ResponseEntity.status(HttpStatus.OK).body(responseList);
     }
 
+    public ResponseEntity<?> getSchedules(LocalDate date) {
+        List<ScheduleEntity> scheduleEntities = scheduleRepository
+                .findByScheduleDateAndScheduleDeletedFalse(date);
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleEntities);
+    }
+
     // 우선순위 계산
     public int getPriority(LocalDate eDate){
 

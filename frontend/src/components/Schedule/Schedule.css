@@ -19,9 +19,25 @@
   font-family: sans-serif;
 }
 
-/* 요일 중앙정렬 */
+/* 상단 년/월 */
+.schedule .react-calendar__navigation {
+  height: 60px;
+}
+
+.schedule .react-calendar__navigation__label {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.schedule .react-calendar__navigation button {
+  font-size: 20px;
+}
+
+/* 요일 */
 .schedule .react-calendar__month-view__weekdays {
   text-align: center;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .schedule .react-calendar__month-view__weekdays__weekday {
@@ -31,16 +47,37 @@
   padding: 10px 0;
 }
 
-/* 날짜 중앙정렬 */
-.schedule .react-calendar__tile {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80px;
-  text-align: center;
+/* 요일 밑줄 제거 */
+.schedule .react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none;
 }
 
-/* ===== 요일 헤더 색상 ===== */
+/* 날짜 */
+.schedule .react-calendar__tile {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  height: 100px;
+
+  padding: 4px;
+}
+
+.schedule .react-calendar__tile abbr {
+  align-self: center;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.schedule .react-calendar__tile:hover,
+.schedule .react-calendar__tile--active {
+  background: transparent !important;
+  border: 2px solid #9de8ff;
+  border-radius: 10px;
+}
 
 /* 일요일 헤더 */
 .schedule .react-calendar__month-view__weekdays__weekday:first-child {
@@ -51,8 +88,6 @@
 .schedule .react-calendar__month-view__weekdays__weekday:last-child {
   color: #6397ff;
 }
-
-/* ===== 날짜 색상 ===== */
 
 /* 일요일 날짜 */
 .schedule .sunday {
@@ -70,9 +105,127 @@
   color: #c0c0c0;
 }
 
+/* 오늘 날짜 */
+.schedule .react-calendar__tile--now {
+  background: transparent !important;
+}
+
+.schedule .react-calendar__tile--now abbr {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 28px;
+  height: 28px;
+
+  background: #9de8ff;
+  border-radius: 8px;
+
+  font-weight: 700;
+  color: #0f172a;
+}
+
 /* 선택 날짜 */
 .schedule .react-calendar__tile--active {
-  background: #6397ff !important;
-  color: white !important;
+  font-weight: 700;
+  color: #0f172a !important;
+}
+
+/* 일정 표시 */
+.calendar-schedule {
+  width: 100%;
+
+  text-align: left;
+  font-size: 13px;
+  color: #000;
+
+  background: #eaf2f8;
+  border-radius: 4px;
+
+  padding: 2px 4px;
+  margin-top: 2px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.calendar-more {
+  font-size: 10px;
+  color: #6397ff;
+  font-weight: 700;
+
+  pointer-events: none;
+}
+
+/* 팝업 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+
+  width: 500px;
+  max-width: 90%;
+  max-height: 70vh;
+
+  overflow-y: auto;
+
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.modal-content h3 {
+  text-align: left;
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+
+  border: none;
+  background: none;
+
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.schedule-item {
+  padding: 12px;
+  margin-bottom: 8px;
+
+  border: 1px solid #dff7ff !important;
+  border-radius: 8px;
+
+  background: #dff7ff !important;
+}
+
+.empty-schedule {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+  font-size: 16px;
+}
+
+.schedule-list {
   border-radius: 10px;
+  padding: 12px;
 }

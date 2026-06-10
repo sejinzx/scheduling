@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/schedule")
 @RequiredArgsConstructor
@@ -33,11 +35,16 @@ public class ScheduleController {
         return scheduleService.deleteSchedule(id);
     }
 
-    @Tag(name = "Schedule 조회")
-    @GetMapping
-    public ResponseEntity<?> getSchedule(@RequestParam int year,
-                                         @RequestParam int month) {
+    @GetMapping("/month")
+    public ResponseEntity<?> getSchedule(
+            @RequestParam int year,
+            @RequestParam int month) {
         return scheduleService.getSchedule(year, month);
     }
 
+    @GetMapping("/date")
+    public ResponseEntity<?> getSchedules(
+            @RequestParam LocalDate date) {
+        return scheduleService.getSchedules(date);
+    }
 }
