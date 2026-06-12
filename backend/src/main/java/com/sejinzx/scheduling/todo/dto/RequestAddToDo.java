@@ -11,4 +11,6 @@ public class RequestAddToDo {
     @NonNull
     private String todoContent;
 
+    private Long scheduleSeq;
+
 }

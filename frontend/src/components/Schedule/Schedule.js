@@ -65,7 +65,8 @@ const Schedule = () => {
           ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
           const daySchedules = monthSchedules.filter(
-            (item) => item.scheduleDate === dateStr,
+            (item) =>
+              item.scheduleDate === dateStr || item.scheduleEndDate === dateStr,
           );
 
           return (

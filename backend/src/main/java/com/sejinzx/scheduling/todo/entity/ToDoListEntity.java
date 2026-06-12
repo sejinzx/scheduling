@@ -38,10 +38,15 @@ public class ToDoListEntity {
     @Column(name = "todo_ended", nullable = false)
     private Boolean todoEnded = false;
 
+    @Column(name = "schedule_seq")
+    private Long scheduleSeq;
+
     @Builder
-    public ToDoListEntity(String todoContent){
+    public ToDoListEntity(String todoContent, Long scheduleSeq){
         this.todoContent = todoContent;
+        this.scheduleSeq = scheduleSeq;
     }
+
 
     public void setTodoContent(String todoContent) { this.todoContent = todoContent; }
 
@@ -49,4 +54,5 @@ public class ToDoListEntity {
 
     public void setTodoDeleted(boolean todoDeleted) { this.todoDeleted = todoDeleted; }
 
+    public void setScheduleSeq(Long scheduleSeq) { this.scheduleSeq = scheduleSeq; }
 }

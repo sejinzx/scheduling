@@ -24,11 +24,12 @@ public class ToDoListService {
 
         ToDoListEntity toDoListEntity = ToDoListEntity.builder()
                 .todoContent(requestAddToDo.getTodoContent())
+                .scheduleSeq(requestAddToDo.getScheduleSeq())
                 .build();
+
         ToDoListEntity saved = toDoListRepository.save(toDoListEntity);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
-
     }
 
     public ResponseEntity<?> updateToDo(Long id, RequestUpdateToDo requestUpdateToDo) {
