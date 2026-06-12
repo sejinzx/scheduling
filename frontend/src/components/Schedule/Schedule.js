@@ -3,14 +3,15 @@ import { useOutletContext } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./Schedule.css";
+import { useNavigate } from "react-router-dom";
 
 const Schedule = () => {
   const { date, setDate } = useOutletContext();
-
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [monthSchedules, setMonthSchedules] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   // 선택한 날짜 일정 조회
   useEffect(() => {
@@ -101,7 +102,6 @@ const Schedule = () => {
             <button className="modal-close" onClick={() => setIsOpen(false)}>
               ✕
             </button>
-
             <h3>
               {new Date(date).getDate()}{" "}
               {
@@ -111,21 +111,43 @@ const Schedule = () => {
               }
               요일
             </h3>
-
             {schedules.length === 0 ? (
               <div className="empty-schedule">등록된 일정이 없습니다.</div>
             ) : (
               <div className="schedule-list">
                 {schedules.map((schedule) => (
                   <div key={schedule.scheduleSeq} className="schedule-item">
-                    {schedule.scheduleContent}
+                    <span>{schedule.scheduleContent}</span>
+
+                    <div
+                      className="schedule-edit-page"
+                      onClick={() =>
+                        navigate(`/schedule/edit/${schedule.scheduleSeq}`)
+                      }
+                    >
+                      수정
+                    </div>
                   </div>
                 ))}
               </div>
             )}
+
+            <button
+              className="create-btn"
+              onClick={() => navigate("/schedule/create", { state: { date } })}
+            >
+              +
+            </button>
           </div>
         </div>
       )}
+
+      <button
+        className="create-btn"
+        onClick={() => navigate("/schedule/create")}
+      >
+        +
+      </button>
     </div>
   );
 };

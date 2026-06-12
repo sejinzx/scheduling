@@ -6,14 +6,26 @@ const Header = () => {
   const location = useLocation();
 
   const isSchedule = location.pathname === "/schedule";
+  const isCreate = location.pathname === "/schedule/create";
+  const isEdit = location.pathname.startsWith("/schedule/edit");
 
   return (
     <div className="header">
-      <div className="now_view">{isSchedule ? "캘린더" : "투두리스트"}</div>
+      <div className="now_view">
+        {isCreate
+          ? "스케줄 생성"
+          : isEdit
+            ? "스케줄 수정"
+            : isSchedule
+              ? "캘린더"
+              : "투두리스트"}
+      </div>
 
-      <Link to={isSchedule ? "/" : "/schedule"} className="menu">
-        {isSchedule ? "투두리스트" : "캘린더"}
-      </Link>
+      {!isCreate && !isEdit && (
+        <Link to={isSchedule ? "/" : "/schedule"} className="menu">
+          {isSchedule ? "투두리스트" : "캘린더"}
+        </Link>
+      )}
     </div>
   );
 };
