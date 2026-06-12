@@ -36,15 +36,21 @@ public class ScheduleController {
     }
 
     @GetMapping("/month")
-    public ResponseEntity<?> getSchedule(
+    public ResponseEntity<?> getMonthSchedules(
             @RequestParam int year,
             @RequestParam int month) {
-        return scheduleService.getSchedule(year, month);
+        return scheduleService.getMonthSchedules(year, month);
     }
 
     @GetMapping("/date")
-    public ResponseEntity<?> getSchedules(
+    public ResponseEntity<?> getDateSchedules(
             @RequestParam LocalDate date) {
         return scheduleService.getSchedules(date);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSchedule(
+            @PathVariable Long id) {
+        return scheduleService.getSchedule(id);
     }
 }

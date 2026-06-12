@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -75,7 +76,7 @@ public class ScheduleService {
 
     }
 
-    public ResponseEntity<?> getSchedule(int year, int month) {
+    public ResponseEntity<?> getMonthSchedules(int year, int month) {
         LocalDate startDate = LocalDate.of(year, month, 1);
 
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
@@ -104,6 +105,12 @@ public class ScheduleService {
         List<ScheduleEntity> scheduleEntities = scheduleRepository
                 .findByScheduleDateAndScheduleDeletedFalse(date);
         return ResponseEntity.status(HttpStatus.OK).body(scheduleEntities);
+    }
+
+    public ResponseEntity<?> getSchedule(Long id) {
+        Optional<ScheduleEntity> scheduleEntity = scheduleRepository.findById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleEntity);
     }
 
     // 우선순위 계산
