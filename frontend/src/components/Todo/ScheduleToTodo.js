@@ -3,14 +3,33 @@ import "./ScheduleToTodo.css";
 
 const ScheduleToTodo = ({ scheduleItems, setScheduleItems, setTodos }) => {
   const addToTodo = (item) => {
-    // 1. todo로 추가
-    setTodos((prev) => [
-      { id: item.id, text: item.text, checked: false, color: item.color },
-      ...prev,
-    ]);
+    fetch("/api/todolist/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        todoContent: item.text,
+        scheduleSeq: item.id,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("추가 실패");
+        return res.json();
+      })
+      .then((savedTodo) => {
+        setTodos((prev) => [
+          {
+            id: savedTodo.todoSeq,
+            text: savedTodo.todoContent,
+            checked: savedTodo.todoEnded,
+          },
+          ...prev,
+        ]);
 
-    // 2. schedule에서 삭제
-    setScheduleItems((prev) => prev.filter((s) => s.id !== item.id));
+        setScheduleItems((prev) => prev.filter((s) => s.id !== item.id));
+      })
+      .catch(console.error);
   };
 
   return (

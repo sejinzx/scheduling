@@ -1,18 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ScheduleToTodo from "./ScheduleToTodo";
 import TodoList from "./TodoList";
 import "./TodoMain.css";
 
 const TodoMain = ({ date, setDate }) => {
+  const [scheduleItems, setScheduleItems] = useState([]);
+  const [todos, setTodos] = useState([]);
+
+  const getColorByPriority = (priority) => {
+    switch (priority) {
+      case 1:
+        return "red";
+      case 2:
+        return "orange";
+      case 3:
+        return "green";
+      default:
+        return "gray";
+    }
+  };
+
+  useEffect(() => {
+    if (!date) return;
+
+    fetch(`/api/schedule/priority?date=${encodeURIComponent(date)}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("API 실패");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("response =", data);
+
+        const list = Array.isArray(data)
+          ? data
+          : Array.isArray(data.data)
+            ? data.data
+            : [];
+
+        const mapped = list.map((item) => ({
+          id: item.scheduleSeq,
+          text: item.scheduleContent,
+          color: getColorByPriority(item.schedulePriority),
+        }));
+
+        setScheduleItems(mapped);
+      })
+      .catch(console.error);
+  }, [date]);
+
   const changeDate = (diff) => {
     const current = new Date(date);
-
     const next = new Date(current);
 
     next.setDate(current.getDate() + diff);
 
     const today = new Date();
-
     today.setHours(0, 0, 0, 0);
     next.setHours(0, 0, 0, 0);
 
@@ -43,26 +85,6 @@ const TodoMain = ({ date, setDate }) => {
       today.getDate() === d.getDate()
     );
   };
-
-  const [scheduleItems, setScheduleItems] = useState([
-    {
-      id: 1,
-      text: "급함",
-      color: "red",
-    },
-    {
-      id: 2,
-      text: "아직 여유",
-      color: "orange",
-    },
-    {
-      id: 3,
-      text: "여유여유",
-      color: "green",
-    },
-  ]);
-
-  const [todos, setTodos] = useState([]);
 
   return (
     <div className="todo_main">
