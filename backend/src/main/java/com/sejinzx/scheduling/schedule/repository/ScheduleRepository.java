@@ -30,4 +30,21 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> 
 
     List<ScheduleEntity> findByScheduleDateAndScheduleDeletedFalse(LocalDate scheduleDate);
 
+    @Query("""
+    SELECT s
+    FROM ScheduleEntity s
+    WHERE s.scheduleDeleted = false
+      AND s.scheduleEndDate IS NOT NULL
+      AND s.scheduleEndDate BETWEEN :start AND :end
+      AND s.scheduleSeq NOT IN (
+          SELECT t.scheduleSeq
+          FROM ToDoListEntity t
+          WHERE t.scheduleSeq IS NOT NULL
+            AND t.todoDeleted = false
+      )
+    """)
+    List<ScheduleEntity> findPrioritySchedules(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end
+    );
 }

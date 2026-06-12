@@ -35,6 +35,7 @@ public class ScheduleController {
         return scheduleService.deleteSchedule(id);
     }
 
+    @Tag(name = "월별 Schedule 조회")
     @GetMapping("/month")
     public ResponseEntity<?> getMonthSchedules(
             @RequestParam int year,
@@ -42,15 +43,25 @@ public class ScheduleController {
         return scheduleService.getMonthSchedules(year, month);
     }
 
+    @Tag(name = "일자별 Schedule 조회")
     @GetMapping("/date")
     public ResponseEntity<?> getDateSchedules(
             @RequestParam LocalDate date) {
         return scheduleService.getSchedules(date);
     }
 
+    @Tag(name = "개별 Schedule 조회")
     @GetMapping("/{id}")
     public ResponseEntity<?> getSchedule(
             @PathVariable Long id) {
         return scheduleService.getSchedule(id);
     }
+
+    @Tag(name = "우선순위 포함 Schedule 조회")
+    @GetMapping("/priority")
+    public ResponseEntity<?> getPrioritySchedules(
+            @RequestParam LocalDate date) {
+        return scheduleService.getPrioritySchedules(date);
+    }
+
 }

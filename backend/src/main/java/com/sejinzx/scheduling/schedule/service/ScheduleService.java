@@ -3,6 +3,7 @@ package com.sejinzx.scheduling.schedule.service;
 import com.sejinzx.scheduling.schedule.dto.RequestAddSchedule;
 import com.sejinzx.scheduling.schedule.dto.RequestUpdateSchedule;
 import com.sejinzx.scheduling.schedule.dto.ResponseGetSchedule;
+import com.sejinzx.scheduling.schedule.dto.ResponseGetSchedulePriority;
 import com.sejinzx.scheduling.schedule.entity.ScheduleEntity;
 import com.sejinzx.scheduling.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -85,58 +85,77 @@ public class ScheduleService {
 
         List<ResponseGetSchedule> responseList =
                 scheduleListEntity.stream()
-                        .map(entity -> ResponseGetSchedule.builder()
-                                .scheduleSeq(entity.getScheduleSeq())
-                                .scheduleContent(entity.getScheduleContent())
-                                .scheduleDate(entity.getScheduleDate())
-                                .scheduleEndDate(entity.getScheduleEndDate())
-                                .schedulePriority(
-                                        getPriority(
-                                                entity.getScheduleEndDate()
-                                        )
-                                )
-                                .build())
+                        .map(this::toDto)
                         .toList();
 
         return ResponseEntity.status(HttpStatus.OK).body(responseList);
     }
 
     public ResponseEntity<?> getSchedules(LocalDate date) {
-        List<ScheduleEntity> scheduleEntities = scheduleRepository
-                .findByScheduleDateAndScheduleDeletedFalse(date);
-        return ResponseEntity.status(HttpStatus.OK).body(scheduleEntities);
+
+        List<ScheduleEntity> scheduleEntities =
+                scheduleRepository.findByScheduleDateAndScheduleDeletedFalse(date);
+
+        List<ResponseGetSchedule> responseList =
+                scheduleEntities.stream()
+                        .map(this::toDto)
+                        .toList();
+
+        return ResponseEntity.ok(responseList);
     }
 
     public ResponseEntity<?> getSchedule(Long id) {
-        Optional<ScheduleEntity> scheduleEntity = scheduleRepository.findById(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(scheduleEntity);
+        ScheduleEntity entity = scheduleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Schedule not found"));
+
+        ResponseGetSchedule response = toDto(entity);
+
+        return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<?> getPrioritySchedules(LocalDate date) {
+
+        LocalDate start = date;
+        LocalDate end = date.plusDays(4);
+
+        List<ScheduleEntity> list =
+                scheduleRepository.findPrioritySchedules(start, end);
+
+        List<ResponseGetSchedulePriority> responseList =
+                list.stream()
+                        .map(entity -> ResponseGetSchedulePriority.builder()
+                                .scheduleSeq(entity.getScheduleSeq())
+                                .scheduleContent(entity.getScheduleContent())
+                                .scheduleEndDate(entity.getScheduleEndDate())
+                                .schedulePriority(getPriority(entity.getScheduleEndDate(), date))
+                                .build())
+                        .toList();
+
+        return ResponseEntity.ok(responseList);
     }
 
     // 우선순위 계산
-    public int getPriority(LocalDate eDate){
+    public int getPriority(LocalDate targetDate, LocalDate baseDate) {
 
-        if(eDate == null){
+        if (targetDate == null) {
             return -1;
         }
 
-        LocalDate today = LocalDate.now();
+        long days = ChronoUnit.DAYS.between(baseDate, targetDate);
 
-        long days = ChronoUnit.DAYS.between(today, eDate);
-
-        if (days < 0) {
-            return -1;
-        }
-        else if (days <= 1) {
-            return 1;
-        }
-        else if (days <= 4) {
-            return 2;
-        }
-        else {
-            return 3;
-        }
-
+        if (days < 0) return -1;
+        if (days <= 1) return 1;
+        if (days <= 4) return 2;
+        return 3;
     }
 
+    private ResponseGetSchedule toDto(ScheduleEntity entity) {
+        return ResponseGetSchedule.builder()
+                .scheduleSeq(entity.getScheduleSeq())
+                .scheduleContent(entity.getScheduleContent())
+                .scheduleDate(entity.getScheduleDate())
+                .scheduleEndDate(entity.getScheduleEndDate())
+                .build();
+    }
 }
