@@ -1,0 +1,33 @@
+.schedule-edit {
+  max-width: 600px;
+  margin: 40px auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.schedule-edit input {
+  padding: 12px;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.button-group button {
+  border: none;
+  border-radius: 8px;
+
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.button-group button:last-child {
+  background: #9de8ff;
+}
